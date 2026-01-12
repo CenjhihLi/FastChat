@@ -172,9 +172,7 @@ def run_judge_single(question, answer, judge, ref_answer, multi_turn=False):
             model, conv, temperature=0, max_tokens=1024
         )
     elif model in GOOGLE_MODEL_LIST:
-        judgment = chat_completion_google(
-            model, conv, temperature=0, max_tokens=2048
-        )
+        judgment = chat_completion_google(model, conv, temperature=0, max_tokens=2048)
     else:
         raise ValueError(f"Invalid judge model name: {model}")
 
@@ -508,15 +506,12 @@ def chat_completion_google(model, conv, temperature, max_tokens, api_dict=None):
     output = API_ERROR_OUTPUT
     for _ in range(API_MAX_RETRY):
         try:
-            client = genai.Client(api_key = api_key)
+            client = genai.Client(api_key=api_key)
             prompt = conv.get_prompt()
             response = client.models.generate_content(
-                model = model,
-                contents = prompt,
-                config = {
-                    "max_output_tokens": max_tokens,
-                    "temperature": temperature,
-                    }
+                model=model,
+                contents=prompt,
+                config={"max_output_tokens": max_tokens, "temperature": temperature,},
             )
             output = response.text
             if output is None:
