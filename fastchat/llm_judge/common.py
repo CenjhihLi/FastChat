@@ -511,7 +511,10 @@ def chat_completion_google(model, conv, temperature, max_tokens, api_dict=None):
             response = client.models.generate_content(
                 model=model,
                 contents=prompt,
-                config={"max_output_tokens": max_tokens, "temperature": temperature,},
+                config={
+                    "max_output_tokens": max_tokens,
+                    "temperature": temperature,
+                },
             )
             output = response.text
             if output is None:
